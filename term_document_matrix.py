@@ -1,5 +1,6 @@
 import os
 from collections import defaultdict
+from preprocessing import queryPreprocessing
 
 
 # Function to read documents from files in a directory
@@ -15,14 +16,14 @@ def read_documents_from_directory(directory):
 
 
 # Function to tokenize text
-def tokenize(text):
-    return text.split()
+def processing(text):
+    return queryPreprocessing(text)
 
 
 # Function to compute term frequency
 def compute_term_frequency(terms, document):
     term_freq = defaultdict(int)
-    words = tokenize(document)
+    words = processing(document)
     for word in words:
         if word in terms:
             term_freq[word] += 1
@@ -31,7 +32,7 @@ def compute_term_frequency(terms, document):
 
 # Function to rank documents based on query
 def rank_documents(query, documents):
-    query_terms = tokenize(query)
+    query_terms = processing(query)
     doc_scores = []
 
     for idx, doc in enumerate(documents):
@@ -57,6 +58,3 @@ def retrieve_top_document_names(query):
     top_doc_indices = rank_documents(query, docs)
     top_doc_names = [filenames[idx] for idx in top_doc_indices]
     return top_doc_names
-
-
-
